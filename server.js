@@ -32,3 +32,9 @@ app.post("/create_image", async (req, res) => {
       res.send(err.message);
     }
   });
+
+  app.get("/home", async (req, res) => {
+
+      res.send("Hello Code fest");
+
+  });
