@@ -27,13 +27,29 @@ app.post("/create_image", async (req, res) => {
         n: 1,
         size: "1024x1024",
       });
-      res.send(response.data.data[0].url);
+      res.json({ url: response.data.data[0].url});
     } catch (err) {
       res.send(err.message);
       console.log(err.message);
 
     }
   });
+
+//   app.post("/create_caption", async (req, res) => {
+//     const { topic } = req.body;
+//     try {
+//       const response = await openai.create({
+//         prompt: caption,
+//         n: 1,
+//         size: "1024x1024",
+//       });
+//       res.send(response.data.data[0].url);
+//     } catch (err) {
+//       res.send(err.message);
+//       console.log(err.message);
+
+//     }
+//   });
 
 app.get("/", async (req, res) => {
 
