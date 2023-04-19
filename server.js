@@ -20,21 +20,23 @@ app.listen(8080, () => {
 });
 
 app.post("/create_image", async (req, res) => {
-    const { prompt } = req.body;
+    const { caption } = req.body;
     try {
       const response = await openai.createImage({
-        prompt,
+        prompt: caption,
         n: 1,
-        size: "512x512",
+        size: "1024x1024",
       });
       res.send(response.data.data[0].url);
     } catch (err) {
       res.send(err.message);
+      console.log(err.message);
+
     }
   });
 
-  app.get("/home", async (req, res) => {
+app.get("/", async (req, res) => {
 
-      res.send("Hello Code fest");
+    res.send("Hello Code fest");
 
-  });
+});
