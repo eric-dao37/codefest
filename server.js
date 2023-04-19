@@ -19,7 +19,7 @@ app.listen(8080, () => {
   console.log("server started");
 });
 
-app.post("/create", async (req, res) => {
+app.post("/create_image", async (req, res) => {
     const { prompt } = req.body;
     try {
       const response = await openai.createImage({
