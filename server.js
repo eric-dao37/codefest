@@ -59,7 +59,7 @@ app.post("/create_caption", async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: completion,
+            caption: completion,
         });
     } catch (err) {
         res.send(err.message);
