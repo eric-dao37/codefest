@@ -22,17 +22,19 @@ app.listen(8080, () => {
 /**
  * Endpoint to create image from caption 
 */
-app.post("/create_image", async (req, res) => {
+app.post("/create_images", async (req, res) => {
     const { caption } = req.body;
     try {
         const response = await openai.createImage({
             prompt: caption,
-            n: 1,
+            n: 4,
             size: "1024x1024",
         });
+        const urlList = response.data.data
+                  .map(item => item.url)
         return res.status(200).json({
             success: true,
-            url: response.data.data[0].url,
+            url_list: urlList,
         });
     } catch (err) {
         res.send(err.message);
@@ -53,6 +55,7 @@ app.post("/create_caption", async (req, res) => {
         const response = await openai.createCompletion({
             model: "text-davinci-003",
             prompt,
+            max_tokens: 2048,
         });
 
         const completion = response.data.choices[0].text;
@@ -81,6 +84,7 @@ app.post("/create_all", async (req, res) => {
         const responseCaption = await openai.createCompletion({
             model: "text-davinci-003",
             prompt,
+            max_tokens: 2048,
         });
 
         console.log(responseCaption.data)
@@ -89,12 +93,16 @@ app.post("/create_all", async (req, res) => {
 
         const responseImage = await openai.createImage({
             prompt: completion,
-            n: 1,
+            n: 4,
             size: "1024x1024",
         });
+        
+        const urlList = responseImage.data.data
+                  .map(item => item.url)
+
         return res.status(200).json({
             success: true,
-            url: responseImage.data.data[0].url,
+            url_list: urlList,
             caption: completion,
         });
     } catch (err) {
